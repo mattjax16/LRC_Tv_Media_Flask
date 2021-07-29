@@ -21,7 +21,7 @@ This is a site to display images and videos.  People are able to add or delete<b
 
 <br>
 
-## DOWNLOADS:
+### DOWNLOADS:
 
 ### Python
 #### Windows:  
