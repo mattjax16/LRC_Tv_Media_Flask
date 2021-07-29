@@ -2,8 +2,6 @@
 
 This is a site to display images and videos.  People are able to add or delete<br>images or videos as they please and display them for the world to see.
 
-<br>
-
 ### PREREQUISITES:
     Python 3.8+
     Flask 2.0.1+
@@ -23,11 +21,7 @@ This is a site to display images and videos.  People are able to add or delete<b
 
 <br>
 
-## <u>DOWNLOAD</u>
-
-
-
-<br>
+## DOWNLOADS:
 
 ### Python
 #### Windows:  
