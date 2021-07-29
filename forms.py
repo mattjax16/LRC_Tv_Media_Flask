@@ -21,10 +21,10 @@ class LoginForm(FlaskForm):
 
 
     #Dont think I want to use email for the login
-    #email = StringField('Email',validators=[DataRequired(), Email()])
+    email = StringField('Email',validators=[DataRequired(), Email()])
 
     password = PasswordField('Password',validators=[DataRequired(),Length(min = 4)])
 
-    rembember = BooleanField('Remember Me')
+    remember = BooleanField('Remember Me')
 
     submit = SubmitField('Login')
