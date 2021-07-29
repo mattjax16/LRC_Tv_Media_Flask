@@ -25,7 +25,7 @@ This is a site to display images and videos.  People are able to add or delete<b
 
 ### Python
 #### Windows:  
-1. Click here and download the latest version of pythons installer
+1. Click [here](https://www.python.org/downloads/) and download the latest version of pythons installer
 2. Once finished downloading click the exe and follow the installers instructions
 
 #### Linux:
