@@ -40,7 +40,6 @@ This is a site to display images and videos.  People are able to add or delete<b
 3. After: `sudo apt-get install python`
 
 <br>
-<br>
 
 ### Flask
 1. Open up a command prompt or terminal
