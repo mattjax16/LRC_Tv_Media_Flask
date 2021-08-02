@@ -9,7 +9,7 @@ class SignupForm(FlaskForm):
 
     email = StringField('Email', validators=[DataRequired(), Email()])
 
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=4, max=40)])
+    password = PasswordField('Signup Password', validators=[DataRequired(), Length(min=4, max=40)])
 
     confirm_password = PasswordField('Confirm Password',validators=[DataRequired(), EqualTo('password'),
                                                                     Length(min=4, max=40)])
@@ -23,7 +23,7 @@ class LoginForm(FlaskForm):
     # Dont think I want to use email for the login
     email = StringField('Email', validators=[DataRequired(), Email()])
 
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=4, max=40)])
+    password = PasswordField('Login Password', validators=[DataRequired(), Length(min=4, max=40)])
 
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password'),
                                                                      Length(min=4, max=40)])

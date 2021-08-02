@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, flash, request
-from forms import LoginForm, SignupForm, FileForm
+from LRCmediaUploader.forms import LoginForm, SignupForm, FileForm
 from LRCmediaUploader import app,db,bcrypt
 from LRCmediaUploader.models import User, LRCmedia
 
