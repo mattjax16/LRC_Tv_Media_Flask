@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms import FileField
+from flask_wtf.file import FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 class SignupForm(FlaskForm):
@@ -22,7 +22,7 @@ class LoginForm(FlaskForm):
 
 
     #Dont think I want to use email for the login
-    # email = StringField('Email',validators=[DataRequired(), Email()])
+    email = StringField('Email',validators=[DataRequired(), Email()])
 
     password = PasswordField('Password',validators=[DataRequired(),Length(min = 4)])
 
@@ -36,6 +36,13 @@ class FileForm(FlaskForm):
 
     image = FileField('Media')
     filename = StringField('Filename', validators=[DataRequired()])
-    description = StringField('description', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+
+    file = FileField('file')
+
+    #prob done need the remember field but using for debugging also with email
+    remember = BooleanField('Remember Me')
+    email = StringField('Email', validators=[DataRequired(), Email()])
+
 
     submit = SubmitField('Upload File')

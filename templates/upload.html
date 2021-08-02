@@ -7,10 +7,10 @@
                 <legend class="border-bottom mb-4">Log In</legend>
                 <div class="form-group">
                     {{ form.filename.label(class="form-control-label") }}
-                    {% if form.filename.errors %}
-                        {{ form.filename(class="form-control form-control-lg is-invalid") }}
+                    {% if form.file.errors %}
+                        {{ form.file(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
+                            {% for error in form.file.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
@@ -31,22 +31,13 @@
                         {{ form.description(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
-                <div class="form-check">
-                    {{ form.remember(class="form-check-input") }}
-                    {{ form.remember.label(class="form-check-label") }}
-                </div>
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
-            <small class="text-muted ml-2">
-                <a href="#">Forgot Password?</a>
-            </small>
         </form>
     </div>
     <div class="border-top pt-3">
-        <small class="text-muted">
-            Need An Account? <a class="ml-2" href="{{ url_for('signup') }}">Sign Up Now</a>
-        </small>
+        <p></p>
     </div>
 {% endblock content %}
