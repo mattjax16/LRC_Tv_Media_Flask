@@ -20,7 +20,7 @@ def admin():
 
 
 @app.route("/")
-@app.route("/login")
+@app.route("/login",methods = ['GET','POST'])
 def login():
     form = LoginForm()
     return render_template('login.html', time='Login', form=form)
