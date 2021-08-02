@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, flash, request
 from forms import LoginForm, SignupForm, FileForm
-from LRCmediaUploader import app
+from LRCmediaUploader import app,db,bcrypt
+from LRCmediaUploader.models import User, LRCmedia
 
 
 @app.route("/home")
@@ -29,8 +30,19 @@ def login():
 def signup():
     form = SignupForm()
     if form.validate_on_submit():
-        flash(f"Account created for{form.username.data}!", 'success' )
-        return redirect(url_for('home'))
+        # hash the password created if valid
+        hashed_pw = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+
+        #create a new user
+        user = User(username= form.username.data, email = form.email.data, password = hashed_pw)
+        # add user to database
+        db.session.add(user)
+        #commit change
+        db.session.commit()
+
+
+        flash(f"Account created for{form.username.data}! You are now able to login!", 'success' )
+        return redirect(url_for('login'))
     return render_template('signup.html', time = 'Signup', form = form)
 
 
