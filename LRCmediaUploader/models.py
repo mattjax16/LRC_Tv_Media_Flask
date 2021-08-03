@@ -24,3 +24,21 @@ class LRCmedia(db.Model):
     #make funcion for how it appears
     def __repr__(self):
         return f"LRCmedia('{self.media_filename}','{self.date_uploaded}','{self.id}')"
+
+
+
+#initilize data base
+def init_db():
+    db.create_all()
+
+    # Create a test user
+    # new_user = User('a@a.com', 'aaaaaaaa')
+    # new_user.display_name = 'Nathan'
+    # db.session.add(new_user)
+    # db.session.commit()
+    #
+    # db.session.commit()
+
+
+if __name__ == '__main__':
+    init_db()
