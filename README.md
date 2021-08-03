@@ -8,7 +8,7 @@ This is a site to display images and videos.  People are able to add or delete<b
     Flask_wtf
     email_validator
     flask-bcrypt
-    
+    flask-login
 <br>
 
 ---
