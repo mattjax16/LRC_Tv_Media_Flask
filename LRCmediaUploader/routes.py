@@ -21,8 +21,8 @@ def admin():
 
 @app.route("/signup",methods = ['GET','POST'])
 def signup():
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('home'))
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = SignupForm()
     if form.validate_on_submit():
         # hash the password created if valid
