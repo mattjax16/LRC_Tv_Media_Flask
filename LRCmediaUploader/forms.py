@@ -5,12 +5,12 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from LRCmediaUploader.models import User
 
 
-class SignupForm(FlaskForm):
+class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
 
     email = StringField('Email', validators=[DataRequired(), Email()])
 
-    password = PasswordField('Signup Password', validators=[DataRequired(), Length(min=4, max=40)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=4, max=40)])
 
     confirm_password = PasswordField('Confirm Password',validators=[DataRequired(), EqualTo('password'),
                                                                     Length(min=4, max=40)])

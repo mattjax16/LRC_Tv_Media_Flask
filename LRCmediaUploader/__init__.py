@@ -12,14 +12,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'\
 
 #initilize database
 db = SQLAlchemy(app)
-# db.create_all()
+db.create_all()
 #initiize encryption
 bcrypt = Bcrypt(app)
 
 #initilize login manager
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-login_manager.login_message_category = 'info'
+# login_manager = LoginManager(app)
+# login_manager.login_view = 'login'
+# login_manager.login_message_category = 'info'
 
 #import at the routes at the end to
 from LRCmediaUploader import routes

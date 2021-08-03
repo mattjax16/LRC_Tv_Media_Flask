@@ -1,8 +1,8 @@
 from flask import Flask, render_template, url_for, redirect, flash, request
 from LRCmediaUploader import app, db, bcrypt
-from LRCmediaUploader.forms import LoginForm, SignupForm, FileForm
+from LRCmediaUploader.forms import LoginForm, RegisterForm, FileForm
 from LRCmediaUploader.models import User, LRCmedia
-from flask_login import login_user, current_user, logout_user, login_required
+# from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/home")
 def home():
@@ -19,11 +19,11 @@ def admin():
     return render_template('admin.html')
 
 
-@app.route("/signup",methods = ['GET','POST'])
-def signup():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = SignupForm()
+@app.route("/register",methods = ['GET','POST'])
+def register():
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('home'))
+    form = RegisterForm()
     if form.validate_on_submit():
         # hash the password created if valid
         hashed_pw = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -40,14 +40,16 @@ def signup():
 
     #if it is not valid on submit return to the login page
     else:
-        return render_template('signup.html', time = 'Signup', form = form)
+        return render_template('register.html', time = 'Register', form = form)
+
+
 
 #For the login page
 @app.route("/")
 @app.route("/login",methods = ['GET','POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -58,6 +60,8 @@ def login():
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
+
+
 
 #for uploading
 @app.route("/upload",methods = ['GET','POST'])
