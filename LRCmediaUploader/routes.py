@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, redirect, flash, request
 from LRCmediaUploader import app, db, bcrypt
 from LRCmediaUploader.forms import LoginForm, RegisterForm, FileForm
 from LRCmediaUploader.models import User, LRCmedia
-# from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/home")
 def home():
@@ -21,8 +21,8 @@ def admin():
 
 @app.route("/register",methods = ['GET','POST'])
 def register():
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('home'))
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = RegisterForm()
     if form.validate_on_submit():
         # hash the password created if valid
@@ -48,15 +48,15 @@ def register():
 @app.route("/")
 @app.route("/login",methods = ['GET','POST'])
 def login():
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('home'))
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            return redirect(next_page) if next_page else redirect(url_for('upload'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -97,6 +97,28 @@ def index():
         flash(f"Account created for{form.filename.data}!", 'success')
         return redirect(url_for('home'))
     return render_template('index.html', form=form)
+
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
+@app.route("/account")
+@login_required
+def account():
+    return render_template('account.html', title='Account')
+
+
+
+
+
+
+
+
+
 
 @app.route("/joe")
 def joe():
