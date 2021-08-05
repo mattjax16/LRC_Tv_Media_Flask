@@ -31,8 +31,8 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
 
-    # Dont think I want to use email for the login
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    # # Dont think I want to use email for the login
+    # email = StringField('Email', validators=[DataRequired(), Email()])
 
     password = PasswordField('Login Password', validators=[DataRequired(), Length(min=4, max=40)])
 

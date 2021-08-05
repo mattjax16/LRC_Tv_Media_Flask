@@ -47,17 +47,17 @@ def register():
 
 
 #For the login page
-@app.route("/")
+@app.route("/",methods = ['GET','POST'])
 @app.route("/login",methods = ['GET','POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('upload'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.username.data).first()
+        user = User.query.filter_by(username=form.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            # return render_template('upload.html', time = 'Upload')
+
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('upload'))
         else:
