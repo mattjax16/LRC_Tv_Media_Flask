@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import current_user
-from LRCmediaUploader.models import User
+from LRCmediaUploader.models import User, LRCmedia
 
 
 class RegisterForm(FlaskForm):
@@ -43,13 +43,16 @@ class LoginForm(FlaskForm):
 
 
 
-class FileForm(FlaskForm):
-    image = FileField('Media')
-    filename = StringField('Filename', validators=[DataRequired()])
-    description = StringField('Description', validators=[DataRequired()])
+class MediaForm(FlaskForm):
 
-    file = FileField('file')
-    submit = SubmitField('Upload File')
+    filename = StringField('Filename', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+
+    file = FileField('Media File', validators=[FileAllowed(['jpg', 'png','jpeg','mp4',
+                                                            'biff','MPEG-1', 'MPEG-2',
+                                                            'MPEG-4','AVI','MOV','AVCHD',
+                                                            'H.264', 'H.265','mp4'])])
+    submit = SubmitField('Upload')
 
 
 

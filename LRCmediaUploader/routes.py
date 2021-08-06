@@ -1,11 +1,12 @@
 from flask import Flask, render_template, url_for, redirect, flash, request
 from LRCmediaUploader import app, db, bcrypt
-from LRCmediaUploader.forms import LoginForm, RegisterForm, FileForm, UpdateAccountForm
+from LRCmediaUploader.forms import LoginForm, RegisterForm, MediaForm, UpdateAccountForm
 from LRCmediaUploader.models import User, LRCmedia
 from flask_login import login_user, current_user, logout_user, login_required
 import os
 import secrets
 from PIL import Image
+# from werkzeug.utils import secure_filename
 
 
 def save_picture(form_picture):
@@ -25,7 +26,21 @@ def save_picture(form_picture):
     return picture_fn
 
 
-@app.route("/home")
+
+def save_media_name(form_media):
+    '''
+    Helper function to to save the media
+    '''
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_media.filename)
+    media_fn = random_hex + f_ext
+    media_path = os.path.join(app.root_path, 'static/media_files', media_fn)
+
+
+    return media_path
+
+@app.route("/",methods = ['GET','POST'])
+@app.route("/home",methods = ['GET','POST'])
 @login_required
 def home():
     return render_template('home.html')
@@ -87,43 +102,61 @@ def login():
 
 
 
-#for uploading
+
+#for testing uploading
 @app.route("/upload",methods = ['GET','POST'])
 @login_required
 def upload():
-    form = FileForm()
-    if form.validate_on_submit():
-        if request.method == 'POST':
-            uploaded_file = request.files['file']
-            if uploaded_file.filename != '':
-                uploaded_file.save(uploaded_file.filename)
-                flash(f"File {form.filename.data} has been uploaded!", 'success')
-                return redirect(url_for('upload'))
-        else:
-            return render_template('upload.html', time='Upload', form=form)
-    return render_template('upload.html', time='Upload', form=form)
-
-
-
-#for testing uploading
-@app.route("/upload_test",methods = ['GET','POST'])
-def upload_test():
+    form = MediaForm()
     if request.method == 'POST':
         uploaded_file = request.files['file']
-        if uploaded_file.filename != '':
-            uploaded_file.save(uploaded_file.filename)
-        return redirect(url_for('upload_test'))
-    return render_template('upload_test.html')
+        print(f'First form file {uploaded_file}')
+        if uploaded_file.filename:
+            coded_filename = save_media_name(uploaded_file)
+            uploaded_file.save(coded_filename)
+        return redirect(url_for('upload'))
+    return render_template('upload.html',form = form)
+
+
+@app.route("/account", methods=['GET', 'POST'])
+@login_required
+def account():
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        # handles changing picture
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+
+        # handles changing username
+        current_user.username = form.username.data
+
+        # handles changing email
+        current_user.email = form.email.data
+
+        # commits changes and redirects to account
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('account.html', title='Account',
+                           image_file=image_file, form=form)
+
+
 
 
 
 @app.route("/index",methods = ['GET','POST'])
 def index():
-    form = FileForm()
-    if form.validate_on_submit():
-        flash(f"Account created for{form.filename.data}!", 'success')
-        return redirect(url_for('home'))
-    return render_template('index.html', form=form)
+    # form = FileForm()
+    # if form.validate_on_submit():
+    #     flash(f"Account created for{form.filename.data}!", 'success')
+    #     return redirect(url_for('home'))
+    # return render_template('index.html', form=form)
+    return render_template('index.html')
 
 
 
@@ -134,25 +167,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route("/account", methods=['GET', 'POST'])
-@login_required
-def account():
-    form = UpdateAccountForm()
-    if form.validate_on_submit():
-        if form.picture.data:
-            picture_file = save_picture(form.picture.data)
-            current_user.image_file = picture_file
-        current_user.username = form.username.data
-        current_user.email = form.email.data
-        db.session.commit()
-        flash('Your account has been updated!', 'success')
-        return redirect(url_for('account'))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.email.data = current_user.email
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('account.html', title='Account',
-                           image_file=image_file, form=form)
+
 
 
 

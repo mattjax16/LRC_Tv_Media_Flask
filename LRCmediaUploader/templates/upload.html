@@ -1,21 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="content-section">
-        <form method="POST" action="">
+        <form method="POST" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Upload</legend>
+                <legend class="border-bottom mb-4">Media Upload Info</legend>
                 <div class="form-group">
                     {{ form.filename.label(class="form-control-label") }}
-                    {% if form.file.errors %}
-                        {{ form.file(class="form-control form-control-lg is-invalid") }}
+
+                    {% if form.filename.errors %}
+                        {{ form.filename(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
-                            {% for error in form.file.errors %}
+                            {% for error in form.filename.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.description(class="form-control form-control-lg") }}
+                        {{ form.filename(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
                 <div class="form-group">
@@ -31,13 +32,19 @@
                         {{ form.description(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <div class="form-group">
+                    {{ form.file.label() }}
+                    {{ form.file(class="form-control-file") }}
+                    {% if form.file.errors %}
+                        {% for error in form.file.errors %}
+                            <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </form>
-    </div>
-    <div class="border-top pt-3">
-        <p></p>
     </div>
 {% endblock content %}
